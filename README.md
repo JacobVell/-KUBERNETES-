@@ -290,8 +290,25 @@ spec:
     targetPort: 80
   type: NodePort
 ```
+## После этого
+kubectl apply -f deployment.yaml
+Проверить:
+
+bash
+Копировать код
+kubectl get deployments
+kubectl get pods -l app=activar
+kubectl get svc activar-service
 
 ---
+Включаем автоскейлинг (HPA) по CPU > 50%
+Создаём HPA для нашего деплоя (минимум 2, максимум 10 реплик):
+```
+kubectl autoscale deployment activar-deployment --cpu-percent=50 --min=2 --max=10
+Проверить статус HPA:
+kubectl get hpa
+kubectl describe hpa activar-deployment
+```
 
 ## 🧹 Удаление воркер-ноды
 
@@ -299,6 +316,7 @@ spec:
 ```bash
 kubectl drain worker-node1 --delete-emptydir-data --force --ignore-daemonsets
 kubectl delete node worker-node1
+
 ```
 
 На воркере:
