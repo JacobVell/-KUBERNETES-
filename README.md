@@ -302,6 +302,31 @@ kubectl get pods -l app=activar
 kubectl get svc activar-service
 ```
 ---
+🚀 Шаги для настройки автоскейлинга
+1️⃣ Убедись, что у тебя установлен Metrics Server
+
+Metrics Server нужен, чтобы Kubernetes видел нагрузку (CPU/Memory).
+
+Установи его:
+```
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
+⚠️ Если у тебя кластер локальный (без SSL), добавь флаг --kubelet-insecure-tls в Deployment Metrics Server:
+```
+kubectl -n kube-system edit deployment metrics-server
+```
+Найди строку:
+```
+- args:
+  - --cert-dir=/tmp
+```
+и добавь:
+```
+  - --kubelet-insecure-tls
+```
+Сохрани и выйди (:wq).
+
+
 Включаем автоскейлинг (HPA) по CPU > 50%
 Создаём HPA для нашего деплоя (минимум 2, максимум 10 реплик):
 ```
@@ -312,6 +337,12 @@ kubectl autoscale deployment activar-deployment --cpu-percent=50 --min=2 --max=1
 kubectl get hpa
 kubectl describe hpa activar-deployment
 ```
+
+
+
+
+
+
 
 ## 🧹 Удаление воркер-ноды
 
