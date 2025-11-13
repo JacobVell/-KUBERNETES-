@@ -96,7 +96,7 @@ sudo apt-mark hold kubelet kubeadm kubectl
 ---
 
 ## 🧩 5. Инициализация мастер-ноды
-
+💡 Здесь 172.16.18.196 — это локальный IP-адрес Master-ноды.
 ```bash
 sudo kubeadm init --apiserver-advertise-address=172.16.18.196 --pod-network-cidr=10.244.0.0/16
 ```
